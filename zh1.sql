@@ -9,6 +9,6 @@ WHERE UGYFEL_FK LIKE 'emese'*/
 SELECT  szh.SZALLAS_ID, 
         szh.SZALLAS_NEV,
         COUNT(sz.KLIMAS) AS 'Klímás szobák'
-FROM Szallashely szh JOIN Szoba sz ON sz.SZALLAS_FK = szh.SZALLAS_ID
+FROM Szallashely szh JOIN Szoba sz ON szh.SZALLAS_ID = sz.SZALLAS_FK
 WHERE sz.KLIMAS = 'i'
 GROUP BY szh.SZALLAS_ID, szh.SZALLAS_NEV
