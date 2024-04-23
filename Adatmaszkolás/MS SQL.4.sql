@@ -1,0 +1,11 @@
+ALTER TABLE [dbo].[Ugyfel] 
+	ALTER COLUMN [NEV] ADD MASKED WITH (FUNCTION = 'default()');
+    
+ALTER TABLE [dbo].[Ugyfel] 
+	ALTER COLUMN [EMAIL] ADD MASKED WITH (FUNCTION = 'email()');
+    
+ALTER TABLE [dbo].[Ugyfel] 
+	ALTER COLUMN [CIM] ADD MASKED WITH (FUNCTION = 'partial(3,"XXX",0)');
+    
+ALTER TABLE [dbo].[Ugyfel]
+	ALTER COLUMN [SZULEV] ADD MASKED WITH (FUNCTION = 'random(1, 4000)')
