@@ -1,0 +1,21 @@
+20
+
+SELECT title, type, release_year
+WHERE type = 'Movie AND release_year = 2018
+LIMIT 3;
+
+21
+
+SELECT type, release_year, COUNT(*)
+FROM movies_and_tv
+GROUP BY type, release_year LIMIT 5;
+
+
+drop table szemely;
+drop table szemely2;
+CREATE TABLE szemely(
+nex TEXT,
+szulev int,
+foglalkozas TEXT,
+PRIMARY KEY((nev,szulev), foglalkozas)
+);
