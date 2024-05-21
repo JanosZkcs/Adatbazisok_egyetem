@@ -1,0 +1,19 @@
+/* 1.Feladat
+SELECT  ROUND(AVG(CSILLAGOK_SZAMA) OVER(PARTITION BY TIPUS ORDER BY CSILLAGOK_SZAMA), 2) AS 'Átlag csillag típusonként',
+        ROUND(AVG(CSILLAGOK_SZAMA) OVER(PARTITION BY HELY ORDER BY CSILLAGOK_SZAMA), 2) AS 'Átlag csilag helyenként'
+FROM Szallashely
+WHERE SZALLAS_NEV NOT LIKE '%-%'
+
+2.feladat
+SELECT  sz.SZOBA_ID,
+        f.FOGLALAS_PK,
+        DATEDIFF(DAY, f.METTOL,f.MEDDIG) AS 'Foglalási napok',
+        LAG(DATEDIFF(DAY, f.METTOL,f.MEDDIG), 1, 0 )OVER (PARTITION BY sz.SZOBA_ID ORDER BY DATEDIFF(DAY, f.METTOL,f.MEDDIG))
+FROM Foglalas f JOIN Szoba sz on f.SZOBA_FK = sz.SZOBA_ID
+
+3.feladat*/
+SELECT  SUM(f.FELNOTT_SZAM + f.GYERMEK_SZAM) AS 'Foglalások száma',
+        szh.SZALLAS_NEV
+FROM Foglalas f JOIN Szoba sz ON f.SZOBA_FK = sz.SZOBA_ID
+        JOIN szallashely szh ON sz.SZALLAS_FK = szh.SZALLAS_ID
+GROUP BY ROLLUP(szh.SZALLAS_NEV)
