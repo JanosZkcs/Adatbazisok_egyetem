@@ -1,0 +1,54 @@
+1.feladat:
+
+SELECT  sz.SZOBA_ID,
+        COUNT(f.FOGLALAS_PK) AS 'Foglalások'
+FROM Foglalas f RIGHT JOIN Szoba sz ON f.SZOBA_FK = sz.SZOBA_ID
+GROUP BY sz.SZOBA_ID
+
+3.feladat:
+
+SELECT  v.NEV,
+        v.USERNEV,
+        v.SZUL_DAT,
+        MIN(f.METTOL) AS 'Legelső Foglalás',
+        MAX(f.METTOL) AS 'Legutolsó foglalás'
+FROM Vendeg v JOIN Foglalas f ON v.USERNEV = f.UGYFEL_FK
+GROUP BY v.NEV,v.USERNEV,v.SZUL_DAT
+
+4.feladat:
+
+SELECT  szh.SZALLAS_ID,
+        sz.POTAGY,
+        SUM(f.FELNOTT_SZAM + f.GYERMEK_SZAM) AS 'Összes foglalás'
+FROM Foglalas f JOIN Szoba sz ON f.SZOBA_FK = sz.SZOBA_ID
+        JOIN szallashely szh ON sz.SZALLAS_FK = szh.SZALLAS_ID
+GROUP BY ROLLUP(szh.SZALLAS_ID, sz.POTAGY)
+
+5.feladat:
+
+SELECT  COUNT(DISTINCT FEROHELY) AS 'Különböző értékek száma',
+        MIN(FEROHELY) AS 'Minimum Férőhely',
+        MAX(FEROHELY) AS 'Maximum Férőhely',
+        IIF(SUM(IIF(FEROHELY = NULL,1,0)) = 0, 100 ,COUNT(*)/ SUM(IIF(FEROHELY = NULL,1,0))) AS "NULL/NOT NULL százalék (%)" --100 = nincs null érték az IIF Igaz ágán,így minden érték nem null tehát 100%ban nem null
+FROM Szoba
+
+7.feladat:
+
+CREATE TABLE student(
+          ID INT PRIMARY KEY,
+          Nev VARCHAR,
+          Teljesitett_felevek LIST<INT>,
+          Eredmenyek MAP<INT, FLOAT>,
+          Nyelvtudas SET<TEXT>
+);
+INSERT INTO student(ID,Nev,Teljesitett_felevek,Eredmenyek,Nyelvtudas) VALUES(1,'Minta Tamas',[1,2],{1 : 3.9, 2: 2.8},{'Angol','Olasz'});
+INSERT INTO student(ID,Nev,Teljesitett_felevek,Eredmenyek,Nyelvtudas) VALUES(2,'Minta Peter',[1,2],{1 : 3.3, 2: 4.1},{'Angol'});
+
+8.feladat:
+
+match(p:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person)
+where p.name = "Tom Hanks"
+return distinct p2.name
+
+(Tom Hanks alapjáraton nincs benne így)
+
